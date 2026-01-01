@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ತೊಟ್ಟಿಲು ಆಹ್ವಾನ</title>
+
+<style>
+:root{
+ --bg1:#fff3c4;
+ --bg2:#f5c542;
+ --card1:#fff8dc;
+ --card2:#f7d774;
+ --gold:#d4af37;
+}
+
+body{
+ margin:0;
+ min-height:100vh;
+ background:radial-gradient(circle,var(--bg1),var(--bg2));
+ font-family:"Noto Serif Kannada",serif;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ overflow:hidden;
+}
+
+.card{
+ width:330px;
+ background:linear-gradient(var(--card1),var(--card2));
+ padding:18px;
+ border-radius:26px;
+ border:4px solid var(--gold);
+ text-align:center;
+ box-shadow:0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* Theme selector */
+.theme-select{
+ margin-bottom:8px;
+}
+.theme-select select{
+ padding:4px 8px;
+ border-radius:8px;
+}
+
+/* Parents */
+.parents{
+ display:flex;
+ justify-content:space-around;
+ margin-bottom:10px;
+}
+.parent img{
+ width:110px;
+ height:110px;
+ border-radius:50%;
+ border:4px solid var(--gold);
+ object-fit:cover;
+}
+.parent-name{
+ margin-top:4px;
+ font-weight:bold;
+ color:#5a2a2a;
+}
+
+/* Details */
+.details p{
+ margin:6px 0;
+ font-weight:bold;
+ color:#4d3b14;
+}
+.address{
+ background:#fff6;
+ padding:10px;
+ border-radius:14px;
+}
+
+/* Next emoji */
+.next{
+ font-size:34px;
+ cursor:pointer;
+ margin-top:10px;
+ animation:bounce 1.5s infinite;
+}
+@keyframes bounce{
+ 50%{transform:translateY(-6px);}
+}
+
+/* Baby page */
+.baby{
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+}
+
+.lamp{
+ font-size:40px;
+}
+
+.baby-name{
+ font-size:24px;
+ font-weight:bold;
+ color:#8b0000;
+ margin:6px 0;
+ text-shadow:0 0 10px gold;
+}
+
+/* Slideshow – centered */
+.slideshow{
+ position:relative;
+ width:170px;
+ height:170px;
+ margin:10px auto;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+}
+.slideshow img{
+ position:absolute;
+ width:170px;
+ height:170px;
+ border-radius:50%;
+ border:4px solid var(--gold);
+ object-fit:cover;
+ opacity:0;
+ transition:1s;
+}
+.slideshow img.active{
+ opacity:1;
+}
+
+/* Blessing */
+button{
+ margin-top:14px;
+ padding:10px 22px;
+ border:none;
+ border-radius:22px;
+ background:linear-gradient(to right,var(--gold),#ffd700);
+ font-weight:bold;
+ cursor:pointer;
+}
+#blessingText{
+ margin-top:10px;
+ font-weight:bold;
+ color:#4d3b14;
+ text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 : PARENTS -->
+<div class="card" id="page1">
+
+ <div class="theme-select">
+ 🌈 ಥೀಮ್ :
+ <select onchange="changeTheme(this.value)">
+  <option value="gold">ಗೋಲ್ಡ್</option>
+  <option value="pink">ಪಿಂಕ್</option>
+  <option value="green">ಹಸಿರು</option>
+  <option value="blue">ನೀಲಿ</option>
+ </select>
+ </div>
+
+ <div class="parents">
+  <div class="parent">
+   <img src="mother.jpg">
+   <div class="parent-name">ತಾಯಿ : ಗಾಯತ್ರಿ.ಕೆ</div>
+  </div>
+  <div class="parent">
+   <img src="father.jpg">
+   <div class="parent-name">ತಂದೆ : ತಿಮೇಶ್.ಕೆ</div>
+  </div>
+ </div>
+
+ <div class="details">
+  <p>📅 ದಿನಾಂಕ : 25 ಡಿಸೆಂಬರ್ 2025</p>
+  <p>⏰ ಸಮಯ : ಬೆಳಿಗ್ಗೆ 10:30</p>
+  <div class="address">
+   📍 ಆಂಜನೇಯ ದೇವಸ್ಥಾನ ಹತ್ತಿರ,<br>
+   ಬಾಚಿಗೊಂಡನಹಳ್ಳಿ-2,<br>
+   ಹಗರಿಬೊಮ್ಮನಹಳ್ಳಿ ತಾಲ್ಲೂಕು,<br>
+   ವಿಜಯನಗರ ಜಿಲ್ಲೆ
+  </div>
+ </div>
+
+ <div class="next" onclick="openBaby()">➡️👶</div>
+</div>
+
+<!-- PAGE 2 : BABY -->
+<div class="card" id="page2" style="display:none;">
+ <div class="baby">
+  <div class="lamp">🪔</div>
+  <div class="baby-name">👶 ಅಭಿರಾಮ್</div>
+
+  <div class="slideshow">
+   <img src="baby1.jpg" class="active">
+   <img src="baby2.jpg">
+   <img src="baby3.jpg">
+  </div>
+
+  <button onclick="showBlessing()">🙏 ಆಶೀರ್ವಾದ</button>
+  <div id="blessingText"></div>
+ </div>
+</div>
+
+<script>
+function openBaby(){
+ document.getElementById("page1").style.display="none";
+ document.getElementById("page2").style.display="block";
+}
+
+/* Slideshow */
+let slides=document.querySelectorAll(".slideshow img");
+let index=0;
+setInterval(()=>{
+ slides[index].classList.remove("active");
+ index=(index+1)%slides.length;
+ slides[index].classList.add("active");
+},2500);
+
+/* Blessing */
+function showBlessing(){
+ document.getElementById("blessingText").innerText =
+ "🙏 ನಿಮ್ಮ ಅಮೂಲ್ಯ ಆಶೀರ್ವಾದಗಳಿಗೆ ಹೃತ್ಪೂರ್ವಕ ಧನ್ಯವಾದಗಳು 🙏";
+}
+
+/* Theme change */
+function changeTheme(t){
+ if(t==="gold") set('#fff3c4','#f5c542');
+ if(t==="pink") set('#ffd1dc','#ffb6c1');
+ if(t==="green") set('#d4efdf','#7dcea0');
+ if(t==="blue") set('#d6eaf8','#85c1e9');
+}
+function set(a,b){
+ document.documentElement.style.setProperty('--bg1',a);
+ document.documentElement.style.setProperty('--bg2',b);
+}
+</script>
+
+</body>
+</html>
